@@ -66,11 +66,14 @@ def fetch_pool(conn):
     """依期別取出可用的 article_ids 與 push_ids（套過濾，依時間排序）"""
     art_by_period = {}
     for name, s, e in PERIODS:
+        # 排除 Re:、新聞、以及標題/內文包含「水桶」
         sql = """
             SELECT id FROM sentiments
             WHERE board='Stock'
               AND title NOT LIKE 'Re:%'
               AND title NOT LIKE '%新聞%'
+              AND title NOT LIKE '%水桶%'
+              AND (content IS NULL OR content NOT LIKE '%水桶%')
               AND timestamp BETWEEN ? AND ?
             ORDER BY timestamp ASC, id ASC
         """
@@ -79,6 +82,7 @@ def fetch_pool(conn):
 
     push_by_period = {}
     for name, s, e in PERIODS:
+        # 排除所屬文章標題含水桶（可選）與推文本身含「水桶」
         sql = """
             SELECT p.id
             FROM push_comments p
@@ -86,6 +90,8 @@ def fetch_pool(conn):
             WHERE s.board='Stock'
               AND s.title NOT LIKE 'Re:%'
               AND s.title NOT LIKE '%新聞%'
+              AND s.title NOT LIKE '%水桶%'
+              AND p.push_content NOT LIKE '%水桶%'
               AND s.timestamp BETWEEN ? AND ?
             ORDER BY s.timestamp ASC, p.id ASC
         """
@@ -116,18 +122,24 @@ def build_queue(conn):
                     if ttype == "title":
                         if title_by_period[period_name]:
                             aid = title_by_period[period_name].popleft()
-                            cur.execute("INSERT INTO labeling_queue (period, task_type, article_id, push_id) VALUES (?,?,?,NULL)",
-                                        (period_name, "title", aid))
+                            cur.execute(
+                                "INSERT INTO labeling_queue (period, task_type, article_id, push_id) VALUES (?,?,?,NULL)",
+                                (period_name, "title", aid)
+                            )
                     elif ttype == "content":
                         if content_by_period[period_name]:
                             aid = content_by_period[period_name].popleft()
-                            cur.execute("INSERT INTO labeling_queue (period, task_type, article_id, push_id) VALUES (?,?,?,NULL)",
-                                        (period_name, "content", aid))
+                            cur.execute(
+                                "INSERT INTO labeling_queue (period, task_type, article_id, push_id) VALUES (?,?,?,NULL)",
+                                (period_name, "content", aid)
+                            )
                     else:  # push
                         if push_by_period[period_name]:
                             pid = push_by_period[period_name].popleft()
-                            cur.execute("INSERT INTO labeling_queue (period, task_type, article_id, push_id) VALUES (?,?,NULL,?)",
-                                        (period_name, "push", pid))
+                            cur.execute(
+                                "INSERT INTO labeling_queue (period, task_type, article_id, push_id) VALUES (?,?,NULL,?)",
+                                (period_name, "push", pid)
+                            )
     conn.commit()
 
 def next_task_for_annotator(conn, annotator: str, period_filter: str):
@@ -166,7 +178,10 @@ def next_task_for_annotator(conn, annotator: str, period_filter: str):
 def fetch_payload_for_task(conn, seq_row):
     seq, period, ttype, aid, pid = seq_row
     if ttype in ("title","content"):
-        s = conn.execute("SELECT id, timestamp, title, content FROM sentiments WHERE id=?", (aid,)).fetchone()
+        s = conn.execute(
+            "SELECT id, timestamp, title, content FROM sentiments WHERE id=?",
+            (aid,)
+        ).fetchone()
         return {"kind":"article", "seq":seq, "period":period, "task_type":ttype, "article":s}
     else:
         p = conn.execute("""
