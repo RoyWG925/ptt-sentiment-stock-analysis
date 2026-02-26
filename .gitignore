@@ -1,0 +1,88 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# 虛擬環境
+venv/
+ENV/
+env/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# 資料庫檔案（重要！避免 commit 大型二進位檔案）
+*.db
+*.sqlite
+*.sqlite3
+database/*.db
+
+# 資料檔案（依專案需求調整）
+data/raw/*.csv
+data/processed/*.csv
+*.csv
+
+# 日誌檔案
+logs/*.log
+*.log
+
+# 環境變數（絕對不可 commit）
+.env
+.env.local
+.env.*.local
+
+# 作業系統
+.DS_Store
+Thumbs.db
+
+# Jupyter Notebook
+.ipynb_checkpoints/
+*.ipynb
+
+# 模型檔案（通常很大）
+*.pth
+*.pt
+*.h5
+*.pkl
+*.joblib
+nlptown-finetuned-on-ptt/
+nlptown-finetuned-v2-push-extra/
+models/
+checkpoints/
+
+# 輸出檔案
+outputs/
+results/
+*.png
+*.jpg
+
+# 但保留重要的文件
+!docs/**/*.pdf
+!docs/**/*.png
+!docs/**/*.jpg
+!assets/**/*.png
+!assets/**/*.jpg
