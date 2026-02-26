@@ -203,9 +203,9 @@ print(stats)
 
 ## 👤 作者 (Author)
 
-- **研究者**: [你的名字]
-- **機構**: [你的學校/單位]
-- **聯絡方式**: [your.email@example.com]
+- **研究者**: [王語揚]、[呂筱婕]、[林峻霆]
+- **機構**: [國立臺灣師範大學]
+- **聯絡方式**: [jg971402@gmail.com]
 
 ---
 
@@ -230,14 +230,14 @@ print(stats)
 
 ```bibtex
 @misc{ptt-sentiment-2025,
-  author = {你的名字},
-  title = {PTT 情緒分析與股市關聯研究},
+  author = {王語揚},
+  title = {事件驅動下的網路社群情緒與市場表現：以川普關稅政策期間之 PTT 股票版與台股加權指數為例},
   year = {2025},
   publisher = {GitHub},
-  url = {https://github.com/yourusername/ptt-sentiment-analysis}
+  url = {https://github.com/RoyWG925/ptt-sentiment-analysis}
 }
 ```
 
 ---
 
-**最後更新**: 2025-04-16
+**最後更新**: 2026-2-26
