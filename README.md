@@ -6,7 +6,7 @@
 [![Flask](https://img.shields.io/badge/Flask-2.0+-green.svg)](https://flask.palletsprojects.com/)
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-📊 **[查看專題海報](docs/presentations/poster.pdf)** | 📝 **[閱讀論文](docs/papers/)** | 🎨 **[研究流程圖](docs/presentations/research_flowchart.pdf)**
+📊 **[查看專題海報](docs/presentations/poster.pdf)** | 📝 **[閱讀論文](docs/papers/thesis.md)** | 🎨 **[研究流程圖](docs/presentations/research_flowchart.pdf)**
 
 ---
 
@@ -134,7 +134,7 @@ graph LR
 ## 📁 專案結構 (Project Structure)
 
 ```
-ptt-sentiment-analysis/
+ptt-sentiment-stock-analysis/
 ├── src/              # 核心程式碼
 ├── scripts/          # 實驗性腳本
 ├── data/             # 資料檔案（raw/processed/outputs）
@@ -226,7 +226,7 @@ conn.close()
 
 ### 研究文件
 - 📊 [專題海報](docs/presentations/poster.pdf) - 研究成果視覺化展示
-- 📝 [論文全文](docs/papers/) - 完整研究論文
+- 📝 [論文全文](docs/papers/thesis.md) - 完整研究論文（可在 GitHub 直接閱讀）
 - 🎨 [研究流程圖](docs/presentations/research_flowchart.pdf) - 方法論視覺化
 
 ### 引用格式
