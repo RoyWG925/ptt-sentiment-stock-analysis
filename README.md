@@ -6,7 +6,7 @@
 [![Flask](https://img.shields.io/badge/Flask-2.0+-green.svg)](https://flask.palletsprojects.com/)
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-📊 **[查看專題海報](docs/presentations/poster.pdf)** | 📝 **[閱讀論文](docs/papers/)** | 🎨 **[研究流程圖](docs/presentations/research_flowchart.pdf)**
+📊 **[查看專題海報](docs/presentations/poster.pdf)** | 📝 **[閱讀論文](docs/papers/thesis.md)** | 🎨 **[研究流程圖](docs/presentations/research_flowchart.pdf)**
 
 ---
 
@@ -134,7 +134,7 @@ graph LR
 ## 📁 專案結構 (Project Structure)
 
 ```
-ptt-sentiment-analysis/
+ptt-sentiment-stock-analysis/
 ├── src/              # 核心程式碼
 ├── scripts/          # 實驗性腳本
 ├── data/             # 資料檔案（raw/processed/outputs）
@@ -161,24 +161,29 @@ ptt-sentiment-analysis/
 
 ## 📈 使用範例 (Usage Examples)
 
-### 範例 1：批次預測情緒
+### 範例 1：取得資料庫連線
 
 ```python
-from src.utils.sentiment_predictor import predict_batch
+from src.utils.db_utils import get_conn
 
-texts = ["台積電今天漲停！", "崩盤了..."]
-results = predict_batch(texts)
-# Output: [2, 0]  # 2=正面, 0=負面
+conn = get_conn()
+rows = conn.execute("SELECT COUNT(*) FROM sentiments").fetchone()
+print(f"文章總數：{rows[0]}")
+conn.close()
 ```
 
 ### 範例 2：查詢標註進度
 
 ```python
-from src.utils.db_utils import get_annotation_stats
+from src.utils.db_utils import get_conn
 
-stats = get_annotation_stats("manual_labels_extra")
-print(stats)
-# {'Negative': 120, 'Neutral': 85, 'Positive': 95, 'Total': 300}
+conn = get_conn()
+rows = conn.execute(
+    "SELECT label_id, COUNT(*) FROM manual_labels_articles_all GROUP BY label_id"
+).fetchall()
+for label_id, count in rows:
+    print(f"label_id={label_id}: {count} 筆")
+conn.close()
 ```
 
 ---
@@ -221,7 +226,7 @@ print(stats)
 
 ### 研究文件
 - 📊 [專題海報](docs/presentations/poster.pdf) - 研究成果視覺化展示
-- 📝 [論文全文](docs/papers/) - 完整研究論文
+- 📝 [論文全文](docs/papers/thesis.md) - 完整研究論文（可在 GitHub 直接閱讀）
 - 🎨 [研究流程圖](docs/presentations/research_flowchart.pdf) - 方法論視覺化
 
 ### 引用格式
@@ -234,7 +239,7 @@ print(stats)
   title = {事件驅動下的網路社群情緒與市場表現：以川普關稅政策期間之 PTT 股票版與台股加權指數為例},
   year = {2025},
   publisher = {GitHub},
-  url = {https://github.com/RoyWG925/ptt-sentiment-analysis}
+  url = {https://github.com/RoyWG925/ptt-sentiment-stock-analysis}
 }
 ```
 
