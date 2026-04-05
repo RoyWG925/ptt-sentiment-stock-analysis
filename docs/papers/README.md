@@ -4,9 +4,13 @@
 
 ## 檔案清單
 
-### 論文草稿
-- **thesis.docx** - 論文完整版
+### 論文
+- **[thesis.md](thesis.md)** - 論文 Markdown 版（可在 GitHub 直接閱讀）
+- **[thesis.docx](thesis.docx)** - 論文完整版（原始格式，含完整排版，需下載後以 Word/LibreOffice 開啟）
   - 標題：事件驅動下的網路社群情緒與市場表現：以川普關稅政策期間之 PTT 股票版與台股加權指數為例
+
+### 論文圖表
+- **[figures/](figures/)** - 論文中所有圖表（由 thesis.md 自動引用）
 
 ## 研究摘要
 
@@ -23,10 +27,10 @@
 
 ```bibtex
 @misc{ptt-sentiment-2025,
-  author = {你的名字},
+  author = {王語揚},
   title = {事件驅動下的網路社群情緒與市場表現：以川普關稅政策期間之 PTT 股票版與台股加權指數為例},
   year = {2025},
   publisher = {GitHub},
-  url = {https://github.com/yourusername/ptt-sentiment-analysis}
+  url = {https://github.com/RoyWG925/ptt-sentiment-stock-analysis}
 }
 ```
