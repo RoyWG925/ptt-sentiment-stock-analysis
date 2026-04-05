@@ -5,12 +5,12 @@
 ## 檔案清單
 
 ### 專題海報
-- **poster.pdf** - 專題海報（完整版）
+- **[poster.pdf](poster.pdf)** - 專題海報（完整版，點擊連結後可在 GitHub 的 PDF 閱覽器中查看）
   - 研究主題：事件驅動下的網路社群情緒與市場表現
   - 研究對象：川普關稅政策期間之 PTT 股票版與台股加權指數
 
 ### 研究流程圖
-- **research_flowchart.pdf** - 研究流程圖
+- **[research_flowchart.pdf](research_flowchart.pdf)** - 研究流程圖（點擊連結後可在 GitHub 的 PDF 閱覽器中查看）
   - 展示完整的研究方法論與資料處理流程
 
 ## 使用方式
@@ -18,8 +18,11 @@
 ### 在 README 中引用海報
 
 ```markdown
-![專題海報](docs/presentations/poster.pdf)
+[查看專題海報](docs/presentations/poster.pdf)
 ```
+
+> ⚠️ 注意：PDF 檔案無法以 Markdown 圖片語法（`![...](...)`）嵌入顯示，
+> 請使用一般連結語法。若需嵌入顯示，請先將 PDF 轉換為 PNG 圖片。
 
 ### 在簡報中使用
 
