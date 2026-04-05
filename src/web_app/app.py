@@ -6,6 +6,7 @@ import os
 from dotenv import load_dotenv
 
 from flask import Flask, request, redirect, url_for, render_template_string, session
+from jinja2 import DictLoader, ChoiceLoader
 
 # 載入環境變數
 load_dotenv()
@@ -410,6 +411,13 @@ ADMIN_HTML = """
 {% endblock %}
 """
 
+# Register BASE_HTML as "base.html" so templates using {% extends "base.html" %} work
+# regardless of how the app is started (directly or via run_web_app.py).
+app.jinja_loader = ChoiceLoader([
+    DictLoader({"base.html": BASE_HTML}),
+    app.jinja_loader,
+])
+
 # ----------------- Routes -----------------
 @app.route("/")
 def index():
@@ -546,7 +554,4 @@ if __name__ == "__main__":
     conn = get_conn()
     build_queue(conn)
     conn.close()
-    app.jinja_env.globals["base"] = BASE_HTML
-    app.jinja_loader = app.create_global_jinja_loader()
-    app.jinja_env.loader.mapping = {"base.html": BASE_HTML}
     app.run(host=HOST, port=PORT, debug=DEBUG)
