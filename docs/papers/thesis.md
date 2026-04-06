@@ -275,7 +275,81 @@ $$Momentum\(k, t\) = Pos_prop_t - Pos_prop_{t-k}$$
 
 ## <a id="_y84y5e73ue49"></a>__3\.3 研究流程 \(Research Process\)__
 
-__![](figures/figure_01.png)__
+```mermaid
+flowchart TD
+    %% 設定顏色與樣式 (使用較為學術/專業的色系)
+    classDef data fill:#E8F0FE,stroke:#1A73E8,stroke-width:2px;
+    classDef process fill:#F8F9FA,stroke:#3C4043,stroke-width:2px;
+    classDef decision fill:#FEF7E0,stroke:#F29900,stroke-width:2px;
+    classDef model fill:#E6F4EA,stroke:#1E8E3E,stroke-width:2px;
+    classDef target fill:#F3E8FD,stroke:#9334E6,stroke-width:2px;
+
+    subgraph Phase1 [第一階段：資料蒐集 Data Acquisition]
+        direction TB
+        A1(PTT Stock板<br/>Requests/BS4):::data
+        B1(台灣市場資料<br/>yfinance API):::data
+        A2[原始文本數據<br/>Posts/Comments]:::data
+        B2[(市場交易數據<br/>Price/Volume)]:::data
+        
+        A1 --> A2
+        B1 --> B2
+    end
+
+    subgraph Phase2 [第二階段：前處理與標註 Preprocessing]
+        direction TB
+        C1(資料清洗<br/>去重/去網址/合併):::process
+        C2(人工標註<br/>三人共識法):::process
+        C3{意見檢定<br/>Fleiss Kappa}:::decision
+        C4[決策點：<br/>僅採用留言 Comments]:::decision
+        
+        C1 --> C2
+        C2 --> C3
+        C3 --> C4
+    end
+
+    subgraph Phase3 [第三階段：模型建構 Model Construction]
+        direction TB
+        D1(基礎模型<br/>bert-base-multilingual):::model
+        D2(訓練策略 V2<br/>平衡採樣 N=750):::model
+        D3(衍生微調<br/>Fine-tuning):::model
+        D4{效能評估<br/>Macro F1=0.68}:::decision
+        D5(全量資料推論<br/>Inference):::model
+        
+        D1 --> D3
+        D2 --> D3
+        D3 --> D4
+        D4 --> D5
+    end
+
+    subgraph Phase4 [第四階段：統計分析 Statistical Analysis]
+        direction TB
+        E1(變數指標建構<br/>情緒/動能/關注度):::target
+        E2(H2-H4: 相關分析<br/>Spearman N=43):::process
+        E3(H1: 情緒預測效果<br/>ANOVA N=21):::process
+        E4(穩健性檢定<br/>Bootstrapping):::process
+        
+        E1 -- 交易日 --> E2
+        E1 -- 全日曆日 --> E3
+        E2 --> E4
+    end
+
+    subgraph Phase5 [第五階段：結論 Conclusion]
+        direction TB
+        F1(行為金融解釋<br/>資訊傳遞/共識形成):::target
+        F2(實務建議與展望):::target
+        
+        F1 --> F2
+    end
+
+    %% 跨階段的連接
+    A2 --> C1
+    C4 --> D3
+    D5 --> E1
+    %% 將原本的長虛線也整理得很乾淨
+    B2 -. 合併交易資料 .-> E1
+    E4 --> F1
+    E3 --> F1
+```
 
 \[圖 3\-1：本研究之研究流程圖\]
 
