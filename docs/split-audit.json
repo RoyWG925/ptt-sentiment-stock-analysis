@@ -1,0 +1,262 @@
+{
+  "schema_version": 1,
+  "source_commit": "45a88e9514298c6e0346230ce903a29c7324d307",
+  "scope": "Published JSON split integrity only; model F1 was not rerun.",
+  "normalization": "Unicode NFKC + casefold + collapse whitespace; punctuation retained",
+  "splits": {
+    "v1_train": {
+      "path": "ptt_raw_consensus/train.json",
+      "sha256": "45f62ef292e2cfc8f441c0f2851f65e59516ead3d86e44432c3974c63471b1bc",
+      "rows": 420,
+      "label_counts": {
+        "0": 148,
+        "1": 219,
+        "2": 53
+      },
+      "blank_text_rows": 1,
+      "exact_duplicate_extra_rows": 3,
+      "normalized_duplicate_extra_rows": 3,
+      "normalized_texts_with_conflicting_labels": 0
+    },
+    "v1_validation": {
+      "path": "ptt_raw_consensus/validation.json",
+      "sha256": "71fa438638efd39bcbbb676b4656fb482b1726f6e6287bb72363a710c87ecc46",
+      "rows": 90,
+      "label_counts": {
+        "0": 32,
+        "1": 47,
+        "2": 11
+      },
+      "blank_text_rows": 0,
+      "exact_duplicate_extra_rows": 1,
+      "normalized_duplicate_extra_rows": 1,
+      "normalized_texts_with_conflicting_labels": 0
+    },
+    "v1_test": {
+      "path": "ptt_raw_consensus/test.json",
+      "sha256": "a608ec18af1bd0d3b8a67dc06dda1299ee4a83d62676912400411a99a5bc1032",
+      "rows": 90,
+      "label_counts": {
+        "0": 32,
+        "1": 47,
+        "2": 11
+      },
+      "blank_text_rows": 0,
+      "exact_duplicate_extra_rows": 0,
+      "normalized_duplicate_extra_rows": 0,
+      "normalized_texts_with_conflicting_labels": 0
+    },
+    "push_train": {
+      "path": "ptt_raw_consensus_push_only/train.json",
+      "sha256": "233da29f289f08aedb49a04be52267ac1c16c1d5e027d68fb003bda30cd6523e",
+      "rows": 210,
+      "label_counts": {
+        "0": 104,
+        "1": 64,
+        "2": 42
+      },
+      "blank_text_rows": 0,
+      "exact_duplicate_extra_rows": 4,
+      "normalized_duplicate_extra_rows": 4,
+      "normalized_texts_with_conflicting_labels": 0
+    },
+    "push_validation": {
+      "path": "ptt_raw_consensus_push_only/validation.json",
+      "sha256": "20176f7a1cb44447f7c58885c700bf58b534a5d50d9a9bbe67bab578a6569803",
+      "rows": 45,
+      "label_counts": {
+        "0": 22,
+        "1": 14,
+        "2": 9
+      },
+      "blank_text_rows": 0,
+      "exact_duplicate_extra_rows": 0,
+      "normalized_duplicate_extra_rows": 0,
+      "normalized_texts_with_conflicting_labels": 0
+    },
+    "push_test": {
+      "path": "ptt_raw_consensus_push_only/test.json",
+      "sha256": "e46a37a777010526475d307cfac993ef543faebc5488cbb9b620bd752d3a5a41",
+      "rows": 45,
+      "label_counts": {
+        "0": 22,
+        "1": 14,
+        "2": 9
+      },
+      "blank_text_rows": 0,
+      "exact_duplicate_extra_rows": 0,
+      "normalized_duplicate_extra_rows": 0,
+      "normalized_texts_with_conflicting_labels": 0
+    },
+    "gold_test": {
+      "path": "ptt_gold_standard/test.json",
+      "sha256": "18954f7916e53c100d662bdafa32aa6f1d1fdbb9fd7aa16e5c3268d513cd16fc",
+      "rows": 210,
+      "label_counts": {
+        "0": 70,
+        "1": 70,
+        "2": 70
+      },
+      "blank_text_rows": 0,
+      "exact_duplicate_extra_rows": 0,
+      "normalized_duplicate_extra_rows": 0,
+      "normalized_texts_with_conflicting_labels": 0
+    }
+  },
+  "comparisons": [
+    {
+      "left": "v1_train",
+      "right": "v1_validation",
+      "exact": {
+        "shared_unique_texts": 1,
+        "left_affected_rows": 3,
+        "right_affected_rows": 2,
+        "shared_text_sha256": [
+          "d24fb94a8f7a88d95feb93aefaa141d3b99dfef02aa2f4ade9f4461b7174d99e"
+        ]
+      },
+      "normalized": {
+        "shared_unique_texts": 1,
+        "left_affected_rows": 3,
+        "right_affected_rows": 2,
+        "shared_text_sha256": [
+          "d24fb94a8f7a88d95feb93aefaa141d3b99dfef02aa2f4ade9f4461b7174d99e"
+        ]
+      }
+    },
+    {
+      "left": "v1_train",
+      "right": "v1_test",
+      "exact": {
+        "shared_unique_texts": 1,
+        "left_affected_rows": 1,
+        "right_affected_rows": 1,
+        "shared_text_sha256": [
+          "7e92752bff47baf33b978c0a89250f13f52d6708e78a547503c7b4ddcdeb16ca"
+        ]
+      },
+      "normalized": {
+        "shared_unique_texts": 1,
+        "left_affected_rows": 1,
+        "right_affected_rows": 1,
+        "shared_text_sha256": [
+          "7e92752bff47baf33b978c0a89250f13f52d6708e78a547503c7b4ddcdeb16ca"
+        ]
+      }
+    },
+    {
+      "left": "v1_validation",
+      "right": "v1_test",
+      "exact": {
+        "shared_unique_texts": 0,
+        "left_affected_rows": 0,
+        "right_affected_rows": 0,
+        "shared_text_sha256": []
+      },
+      "normalized": {
+        "shared_unique_texts": 0,
+        "left_affected_rows": 0,
+        "right_affected_rows": 0,
+        "shared_text_sha256": []
+      }
+    },
+    {
+      "left": "push_train",
+      "right": "push_validation",
+      "exact": {
+        "shared_unique_texts": 0,
+        "left_affected_rows": 0,
+        "right_affected_rows": 0,
+        "shared_text_sha256": []
+      },
+      "normalized": {
+        "shared_unique_texts": 0,
+        "left_affected_rows": 0,
+        "right_affected_rows": 0,
+        "shared_text_sha256": []
+      }
+    },
+    {
+      "left": "push_train",
+      "right": "push_test",
+      "exact": {
+        "shared_unique_texts": 2,
+        "left_affected_rows": 5,
+        "right_affected_rows": 2,
+        "shared_text_sha256": [
+          "d24fb94a8f7a88d95feb93aefaa141d3b99dfef02aa2f4ade9f4461b7174d99e",
+          "ff86ea17bf0a995ed0227d29881eaecf8018d5fcccdf9d0625b777d71d09b682"
+        ]
+      },
+      "normalized": {
+        "shared_unique_texts": 2,
+        "left_affected_rows": 5,
+        "right_affected_rows": 2,
+        "shared_text_sha256": [
+          "d24fb94a8f7a88d95feb93aefaa141d3b99dfef02aa2f4ade9f4461b7174d99e",
+          "ff86ea17bf0a995ed0227d29881eaecf8018d5fcccdf9d0625b777d71d09b682"
+        ]
+      }
+    },
+    {
+      "left": "push_validation",
+      "right": "push_test",
+      "exact": {
+        "shared_unique_texts": 0,
+        "left_affected_rows": 0,
+        "right_affected_rows": 0,
+        "shared_text_sha256": []
+      },
+      "normalized": {
+        "shared_unique_texts": 0,
+        "left_affected_rows": 0,
+        "right_affected_rows": 0,
+        "shared_text_sha256": []
+      }
+    },
+    {
+      "left": "v1_train",
+      "right": "gold_test",
+      "exact": {
+        "shared_unique_texts": 1,
+        "left_affected_rows": 1,
+        "right_affected_rows": 1,
+        "shared_text_sha256": [
+          "e0ec4008e0a295adeac6bcfc840bb8d60259c272a80f9b7566e75bab885a038e"
+        ]
+      },
+      "normalized": {
+        "shared_unique_texts": 1,
+        "left_affected_rows": 1,
+        "right_affected_rows": 1,
+        "shared_text_sha256": [
+          "e0ec4008e0a295adeac6bcfc840bb8d60259c272a80f9b7566e75bab885a038e"
+        ]
+      }
+    },
+    {
+      "left": "v1_validation",
+      "right": "gold_test",
+      "exact": {
+        "shared_unique_texts": 0,
+        "left_affected_rows": 0,
+        "right_affected_rows": 0,
+        "shared_text_sha256": []
+      },
+      "normalized": {
+        "shared_unique_texts": 0,
+        "left_affected_rows": 0,
+        "right_affected_rows": 0,
+        "shared_text_sha256": []
+      }
+    }
+  ],
+  "limitations": [
+    "V2 training/validation master tables are not published; V2 disjointness cannot be verified.",
+    "V2 starts from V1 weights, so independence must include V1 training exposure.",
+    "Text matches flag review candidates; repeated generic phrases do not establish score inflation.",
+    "JSON exports omit post/user/timestamp identifiers; grouped and temporal leakage cannot be audited.",
+    "Gold test is balanced (70 per class), which does not estimate natural deployment class prevalence.",
+    "Raw-consensus test and gold-standard test are distinct evaluation populations."
+  ]
+}

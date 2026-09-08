@@ -25,7 +25,33 @@
 
 ## 🚀 快速啟動 (Quick Start)
 
-> 💡 **新手？** 請先閱讀 [5 分鐘快速啟動指南](QUICKSTART.md)
+### 可直接重現：公開資料切分稽核（Python 標準函式庫）
+
+```bash
+python -m unittest tests.test_split_audit -v
+python scripts/audit_dataset_splits.py --output docs/split-audit.json
+# 嚴格模式：發現跨集合文本重複時以 exit code 1 結束
+python scripts/audit_dataset_splits.py --strict
+```
+
+此流程只讀取公開 JSON，輸出樣本數、類別分布、原始檔案 SHA256、完全相同／正規化後重複文本的數量；**不會執行模型、重訓或驗證 F1**。結果見 [split-audit.json](docs/split-audit.json)。原始資料保留不變。
+
+### 研究結果與重現範圍
+
+| 項目 | 公開證據與限制 |
+|------|----------------|
+| 模型 | 訓練程式使用 `nlptown/bert-base-multilingual-uncased-sentiment`；V2 從 V1 checkpoint 繼續微調。不是 CKIP BERT。 |
+| 歷史成績 | 論文報告 gold test N=210 上 V0 macro F1=0.475、V1=0.232、V2=0.683。這些為歷史報告值，本次稽核未重新執行模型。 |
+| 公開資料 | V1 train/validation/test=420/90/90；push-only=210/45/45；gold test=210（每類 70）。Raw test 與 gold test 是不同集合。 |
+| 未公開重現材料 | V2 的 `v2_training_set_master` / `v2_validation_set_master` SQLite 資料表、V1/V2 模型 checkpoint、完整套件版本鎖定與逐筆預測結果。現有程式無法從公開檔案獨立重現 V2 成績。 |
+| 資料獨立性 | 稽核發現公開切分有少量重複文本，包含一筆 gold test 文本也出現在 V1 train。V2 繼承 V1 權重，因此需檢查完整訓練歷程；重複短語本身不足以推定分數膨脹。 |
+| 參數差異 | 程式 V1 為 batch=8、epochs=3；V2 為 batch=32、epochs=8、lr=2e-5。論文記載 batch=16、epochs=4；需要原始執行紀錄釐清哪組產生所報結果。 |
+
+切分 JSON 未保留文章／使用者／時間識別，無法驗證依文章、作者或時間分組後的獨立性。V2 master tables 未提供，因此目前也無法確認 V2 train/validation 與 gold test 是否完全分離。Gold test 的平衡類別分布不代表實際 PTT 流量分布。
+
+### 完整研究流程（需要自備資料與模型）
+
+以下保留原研究的操作方式，**不是目前可從乾淨 checkout 完整啟動的 demo**。資料庫／股價 CSV／模型權重需另行提供；套件清單尚未完整封裝。[原快速啟動指南](QUICKSTART.md) 也有相同前提。
 
 ### 1. 環境需求
 
@@ -40,8 +66,8 @@
 python -m venv venv
 source venv/bin/activate  # Windows: venv\Scripts\activate
 
-# 安裝套件
-pip install -r requirements.txt
+# 完整 app / ML 套件清單尚未公開封裝。
+# 上方資料切分稽核與 fixture tests 不需 pip install。
 ```
 
 ### 3. 設定環境變數
@@ -82,13 +108,18 @@ python src/desktop_app/advanced_label_tool.py
 
 ## 🏗️ 系統架構 (Architecture)
 
+```mermaid
+flowchart TD
+    PTT[PTT 爬蟲] --> DB[SQLite 原始資料]
+    DB --> UI[Flask / Tkinter 人工標註]
+    UI --> LABELS[共識與人工資料集]
+    LABELS --> TRAIN[離線 BERT 微調]
+    TRAIN --> INFER[離線批次推論]
+    DB --> INFER
+    INFER --> STATS[統計分析與圖表]
 ```
-使用者 → Flask Web App → SQLite Database
-                ↓
-         BERT 模型推論 → 情緒標籤
-                ↓
-         統計分析模組 → 論文表格/圖表
-```
+
+Web app 負責人工標註；模型訓練與推論由獨立 Python scripts 執行，沒有整合成線上模型服務。
 
 ### 核心模組說明
 
@@ -113,7 +144,7 @@ graph LR
 ```
 
 1. **資料收集** - 爬取 PTT Stock 板指定期間的文章
-2. **情緒分類** - 使用微調後的 `ckiplab/bert-base-chinese` 模型
+2. **情緒分類** - 使用從 `nlptown/bert-base-multilingual-uncased-sentiment` 微調的模型
 3. **人工標註** - 透過 Web/Desktop 介面進行三分制標註
 4. **統計檢定** - 卡方檢定、Spearman 相關性、Bootstrap CI
 5. **視覺化** - 生成 Z-score、MinMax、Diff 等對比圖表
