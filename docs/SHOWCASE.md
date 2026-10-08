@@ -132,7 +132,7 @@ PTT Stock board sentiment and Taiwan stock market performance.
 ### 可能的問題與回答
 
 **Q: 為什麼選擇 BERT 而不是其他模型？**
-A: BERT 在中文情緒分析任務上表現優異，且 Hugging Face 提供了預訓練的中文模型（ckiplab/bert-base-chinese），可以快速微調適應 PTT 的語言風格。
+A: 基礎模型是 Hugging Face 的 `nlptown/bert-base-multilingual-uncased-sentiment`。它是多語言模型，預訓練在產品評論的星級情感上，星級可對應到負面、中性、正面，再針對 PTT 留言做領域微調。論文第 3.3.3 節說明了這個選擇。
 
 **Q: 如何確保標註品質？**
 A: 我們實作了多人標註機制，並計算 Cohen's Kappa 評估標註者間一致性。同時建立了資料洩露防護，確保測試集不包含訓練集資料。
