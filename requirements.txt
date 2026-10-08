@@ -33,14 +33,13 @@ jieba>=0.42.1
 wordcloud>=1.9
 
 # --- Model training and inference (large download) ---
-# finetune_bert.py calls TrainingArguments(eval_strategy=...) and
-# Trainer(tokenizer=...). eval_strategy arrived in transformers 4.41;
-# transformers 5 dropped the tokenizer= argument. datasets 5 requires
-# huggingface-hub 1.x, which conflicts with transformers 4.x, so both
-# stay below 5. accelerate is what transformers.Trainer imports.
-# post_sentiment.py uses torch.amp.autocast, which needs torch 2.1+.
+# finetune_bert.py calls TrainingArguments(eval_strategy=...) (added in
+# transformers 4.41) and Trainer(tokenizer=...) (removed in 4.46).
+# datasets 5 needs huggingface-hub 1.x, which 4.45 cannot use.
+# accelerate is what transformers.Trainer imports.
+# post_sentiment.py uses torch.amp.autocast (torch 2.1+; 2.2+ for this stack).
 torch>=2.2
-transformers>=4.41,<5
+transformers>=4.41,<4.46
 accelerate>=0.26.0
 datasets>=2.14,<5
 scikit-learn>=1.3
