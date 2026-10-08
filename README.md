@@ -35,26 +35,23 @@ National Taiwan Normal University undergraduate capstone (學習科學學士學�
 
 **Stack.** Python, Requests, BeautifulSoup, SQLite, PyTorch, Hugging Face Transformers, pandas, NumPy, SciPy, Matplotlib, Flask, Tkinter, `yfinance`. Base checkpoint: `nlptown/bert-base-multilingual-uncased-sentiment`.
 
-**How to run.** `requirements.txt` is not in this repo (older docs still mention it). Databases matching `*.db` and CSV files are gitignored, so a fresh clone cannot rerun the market pipeline until those local files exist.
+**How to run.** Databases matching `*.db` and CSV files are gitignored, so a fresh clone cannot rerun the market pipeline until those local files exist.
 
 ```bash
 python -m venv venv
 source venv/bin/activate  # Windows: venv\Scripts\activate
 
-# Statistics pipeline (pandas, numpy, scipy, python-dotenv).
-# Expects database/ptt_data_m.db and data/raw/taiex_open_close.csv
+# Statistics pipeline expects database/ptt_data_m.db and data/raw/taiex_open_close.csv
 # unless DB_PATH_M and STOCK_CSV say otherwise. See .env.example.
-pip install pandas numpy scipy python-dotenv
+# Web app needs FLASK_SECRET_KEY in .env.
+pip install -r requirements.txt
 cp .env.example .env
 python run_pipeline.py
 
-# Labeling apps. Web also needs Flask; set FLASK_SECRET_KEY in .env.
-pip install flask
 python run_web_app.py          # http://localhost:8000
 python run_desktop_app.py
 
-# Fine-tune (scripts/finetune_bert.py). Also needs torch, transformers,
-# datasets, and scikit-learn. Training JSON is under ptt_raw_consensus/.
+# Fine-tune (scripts/finetune_bert.py). Training JSON is under ptt_raw_consensus/.
 ```
 
 Labeled JSON already in the repo: `ptt_raw_consensus/`, `ptt_raw_consensus_push_only/`, `ptt_gold_standard/`.
@@ -107,7 +104,7 @@ Teammate names are in the 作者 section below.
 
 ## 🚀 快速啟動 (Quick Start)
 
-操作步驟的較短版本在 [QUICKSTART.md](QUICKSTART.md)。那個檔案仍寫著 `pip install -r requirements.txt`，但倉庫裡沒有這份檔案。
+操作步驟的較短版本在 [QUICKSTART.md](QUICKSTART.md)。
 
 ### 1. 環境需求
 
@@ -121,10 +118,7 @@ Teammate names are in the 作者 section below.
 python -m venv venv
 source venv/bin/activate  # Windows: venv\Scripts\activate
 
-# 統計 pipeline
-pip install pandas numpy scipy python-dotenv
-
-# 網頁標註另需 flask；微調另需 torch transformers datasets scikit-learn
+pip install -r requirements.txt
 ```
 
 `*.db` 與 `*.csv` 在 `.gitignore` 裡。重跑 pipeline 需要本機的 `database/ptt_data_m.db` 與 `data/raw/taiex_open_close.csv`（路徑可用環境變數改）。
