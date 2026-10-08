@@ -14,7 +14,7 @@ The question: when tariff headlines hit in late March and April 2025, did talk o
 
 ## English summary
 
-National Taiwan Normal University undergraduate capstone (學習科學學士學位學程). Students on the thesis cover: 王語揚, 呂筱婕, 林峻霆. Advisors: 李良一, 吳清麟. Window: 27 March–16 April 2025, split into pre-event (P1, 27 Mar–2 Apr), shock (P2, 3–9 Apr), and suspension / post-event (P3, 10–16 Apr; 暫緩期).
+National Taiwan Normal University undergraduate capstone (學習科學學士學位學程), three-person team. Advisors: 李良一, 吳清麟. Window: 27 March–16 April 2025, split into pre-event (P1, 27 Mar–2 Apr), shock (P2, 3–9 Apr), and suspension / post-event (P3, 10–16 Apr; 暫緩期).
 
 **Method.** Crawl → clean → label → fine-tune BERT → evaluate → event study.
 
@@ -69,15 +69,14 @@ Thesis Figure 4-1: Z-scored daily positive-comment share on PTT Stock and Z-scor
 
 ### My role
 
-This is a three-person team project. I am Roy Wang (王語揚, GitHub [RoyWG925](https://github.com/RoyWG925)). I contributed at every stage of the pipeline alongside my teammates:
+This is a three-person team project. I am Roy Wang (王語揚, GitHub [RoyWG925](https://github.com/RoyWG925)). The thesis appendix assigns me these parts:
 
-- Crawling and data cleaning
-- Data labeling
-- BERT fine-tuning and evaluation
-- Event study and statistical analysis
-- Charts and the report
+- Data crawling
+- BERT model training
+- Coding
+- Statistical analysis
 
-The thesis appendix records the team’s division of labor. Names are in the 作者 section below and on the thesis cover.
+Teammate names are in the 作者 section below.
 
 ---
 
