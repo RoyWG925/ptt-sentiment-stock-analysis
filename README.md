@@ -1,6 +1,6 @@
 # PTT Stock Sentiment and the TAIEX
 
-**A three-person NTNU study that fine-tuned a multilingual BERT on PTT Stock comments and event-studied retail sentiment against the TAIEX during the 2025 U.S.–China tariff shock.**
+**A three-person NTNU study that fine-tuned a multilingual BERT on PTT Stock comments and event-studied retail sentiment against the TAIEX during the April 2025 U.S. reciprocal-tariff shock.**
 
 [![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)](https://www.python.org/)
 [![Flask](https://img.shields.io/badge/Flask-2.0+-green.svg)](https://flask.palletsprojects.com/)
@@ -8,7 +8,9 @@
 
 The question: when tariff headlines hit in late March and April 2025, did talk on Taiwan’s largest retail forum change shape, move with the index, and carry a short-horizon reversal or volatility signal?
 
-📊 **[Poster](docs/presentations/poster.pdf)** · 📝 **[Thesis](docs/papers/thesis.md)** · 🎨 **[Flowchart](docs/presentations/research_flowchart.pdf)**
+📊 **[Poster](docs/presentations/poster.pdf)** · 📝 **[Thesis](docs/papers/thesis.md)** · 🎨 **[Flowchart](docs/presentations/research_flowchart.pdf)** · ⚠️ **[Errata](ERRATA.md)**
+
+> **Re-checked in October 2026.** Several numbers and claims in the submitted thesis do not match the project's own data. The thesis is kept as submitted; corrections, recomputed values and evidence are in [ERRATA.md](ERRATA.md). The summary below uses the corrected values.
 
 ---
 
@@ -20,18 +22,17 @@ National Taiwan Normal University undergraduate capstone (學習科學學士學�
 
 1. Crawl PTT Stock posts and pushes.
 2. Clean timestamps and text, and align forum text with TAIEX daily data (`yfinance` in the study; a local CSV in the pipeline).
-3. Label sentiment in three classes (positive / neutral / negative). Three annotators; full agreement kept, 2-of-3 majority kept, total disagreement dropped. Fleiss’ κ was 0.6509 on comments, 0.4452 on post bodies, and 0.2377 on titles, so training used comments only (thesis Table 3-1).
-4. Fine-tune `nlptown/bert-base-multilingual-uncased-sentiment` (PyTorch, Hugging Face Transformers). The final V2 set is class-balanced: 250 / 250 / 250 comments in train (thesis Table 3-2).
-5. Compare V0, V1, and V2 on a balanced test set of 210 comments, then run inference with V2. The comparison is thesis §3.3.4 (Table 3-3).
+3. Label sentiment in three classes (positive / neutral / negative). Three annotators labeled 300 comments, 150 titles and 150 post bodies; 2-of-3 majority was kept and three-way disagreements were resolved by arbitration. Fleiss’ κ was 0.5509 on comments, 0.4452 on post bodies, and 0.2377 on titles, so training used comments only. (The thesis prints 0.6509 for comments and says disagreements were dropped; see [ERRATA](ERRATA.md).)
+4. Fine-tune `nlptown/bert-base-multilingual-uncased-sentiment` (PyTorch, Hugging Face Transformers). V1 was fine-tuned from nlptown; V2 continued from V1 on comments only, with 493 training items (185 / 159 / 149) and 90 validation items (30 per class). Most V2 items were labeled by one person.
+5. Compare V0, V1, and V2 on a balanced test set of 210 comments, then run inference with V2. Macro-F1: V0 0.475, V1 0.232, V2 0.683 (thesis Table 3-3, reproduced exactly). That test set overlaps the V2 training data and was used while tuning V2; on a 45-item held-out split labeled by three-annotator consensus, V2 scores 0.580.
 6. Event study on two samples: all 21 calendar days for the sentiment-structure tests, and 13 trading days for the market correlations (Spearman, with a 1,000-draw bootstrap).
 
-**What the study reports.** Numbers below are the values printed in the thesis tables. This is one event. Trading-day correlations use N = 13.
+**What the data support.** Values below were recomputed from the project's local data in October 2026 ([ERRATA](ERRATA.md) lists every difference from the thesis). This is one event, and every market correlation is same-day, so none of it shows prediction.
 
-- Sentiment mix shifted across P1 / P2 / P3 (one-way ANOVA, N = 21). Neutral share moved from 0.3266 ± 0.044 (P1) to 0.3743 ± 0.022 (P2) and 0.3779 ± 0.020 (P3); ANOVA F = 6.1697, p = 0.0091. Positive share fell from P1 to P2 (post-hoc p = 0.024). Negative share did not rise from P1 to P2 (p = 0.135). Mean daily discussion volume went from 8,275 ± 3,175 (P1) to 29,185 ± 11,042 (P2). Table 4-1 also lists mean daily index returns of −0.85% (P1), −6.50% (P2), and +2.35% (P3).
-- On trading days, positive share and cumulative TAIEX return moved together: Spearman ρ = 0.588, p = 0.035. Negative share moved the other way: ρ = −0.560, p = 0.046.
-- A two-day change in positive share (Lag-2 momentum) lined up with return more tightly than a one-day change: Lag-2 ρ = 0.782, p = 0.0045; Lag-1 ρ = 0.133, p = 0.665 (thesis Table 4-4, N = 13). The one-day positive-share change versus return is also given in the text as ρ = .133, not significant.
-- Comment-volume ratio versus absolute return: ρ = 0.736, p = 0.0041. Volume change versus absolute return: ρ = 0.709, p = 0.0150.
-- Bootstrap (1,000 resamples), 95% CI: Lag-2 vs return [0.291, 0.990]; volume vs absolute return [0.271, 0.966]. Both intervals sit above 0 in Table 4-5.
+- **The sentiment mix shifted in the shock week.** Neutral share rose from 0.3266 (P1) to 0.3743 (P2) and positive share fell from 0.1713 to 0.1396; both changes hold under Tukey correction (p = 0.023 and 0.020). Classic ANOVA gives p < 0.03 for all three shares, but Welch's ANOVA, which allows for the unequal variances, gives p = 0.05–0.08. No significant change from P2 to P3, so there is no evidence of a rebound in confidence. Mean daily discussion volume went from 8,275 (P1) to 29,185 (P2).
+- **Positive and negative shares both moved with the index; neutral moved against it.** Spearman against cumulative TAIEX return on 13 trading days: positive ρ = 0.588 (p = 0.035), negative ρ = +0.560 (p = 0.046), neutral ρ = −0.484 (p = 0.094). The thesis prints −0.560 for negative and reads the result as a bull/bear mirror; that reading is wrong. The correlation mostly reflects the three periods sitting at different levels; in daily changes it drops to ρ = 0.13.
+- **The "Lag-2 momentum" result does not hold up.** ρ = 0.782 (N = 11) appears only when the lag is counted in trading days after dropping non-trading days, which spans 2–6 calendar days around the holiday. Counted as two calendar days, as the thesis defines it, ρ = −0.255, p = 0.45. It was also the best of many specifications tried.
+- **Discussion volume tracked same-day volatility.** Volume vs absolute return: ρ = 0.714, p = 0.006 (the thesis's 0.736 used a first-day return wrongly set to 0). Volume did not predict the next day's absolute return (ρ = 0.17, p = 0.60).
 
 **Stack.** Python, Requests, BeautifulSoup, SQLite, PyTorch, Hugging Face Transformers, pandas, NumPy, SciPy, Matplotlib, Flask, Tkinter, `yfinance`. Base checkpoint: `nlptown/bert-base-multilingual-uncased-sentiment`.
 
@@ -64,16 +65,17 @@ Thesis Figure 4-1: Z-scored daily positive-comment share on PTT Stock and Z-scor
 
 *Figure 4-1 from [docs/papers/thesis.md](docs/papers/thesis.md). Source file: `docs/papers/figures/figure_03.png`.*
 
-### My role
+### Team
 
-This is a three-person team project. I am Roy Wang (王語揚, GitHub [RoyWG925](https://github.com/RoyWG925)). The thesis appendix assigns me these parts:
+Three-person team project. Roles as listed in the thesis appendix (小組分工情形):
 
-- Data crawling
-- BERT model training
-- Coding
-- Statistical analysis
+| Member | Role |
+|---|---|
+| 王語揚 Roy Wang ([RoyWG925](https://github.com/RoyWG925)) | Data crawling, BERT model training, coding, statistical analysis |
+| 呂筱婕 | Research design, charts, presentation and poster design |
+| 林峻霆 | Literature review, research framework, data annotation, conclusions and final integration |
 
-Teammate names are in the 作者 section below.
+All three members took part in the three-annotator labeling round.
 
 ---
 
@@ -98,7 +100,9 @@ Teammate names are in the 作者 section below.
 3. **人工標註系統** — Web 與桌面雙介面，支援多人協作標註
 4. **統計檢定** — 變異數分析、Spearman 相關、Bootstrap 信賴區間
 
-最終產出論文用的統計表格與視覺化圖表。數字與樣本定義以 [論文](docs/papers/thesis.md) 為準，英文摘要只引用論文表格裡的原值。
+最終產出論文用的統計表格與視覺化圖表。
+
+> ⚠️ **2026-10 重新檢查後的勘誤。**論文保留繳交時的原樣，但其中有數個數字與結論和專案資料不符，例如：H2 負面情緒相關實為 +0.560（論文寫 −0.560）、留言 Kappa 為 0.5509（論文寫 0.6509）、V2 訓練集為 493 筆（論文寫 750）、「兩日情緒動能」換成論文自己的日曆日定義後不顯著，以及測試集與訓練資料有重疊。完整更正與證據見 [ERRATA.md](ERRATA.md)。
 
 ---
 
@@ -284,7 +288,14 @@ MIT License。見 [LICENSE](LICENSE)。
 ## 👤 作者 (Author)
 
 - **研究者**: 王語揚、呂筱婕、林峻霆
-- **機構**: 國立臺灣師範大學
+- **指導教授**: 李良一、吳清麟
+- **機構**: 國立臺灣師範大學 學習科學學士學位學程
+
+| 成員 | 分工（論文附錄） |
+|---|---|
+| 王語揚 | BERT 模型訓練、程式撰寫、資料爬蟲、統計分析 |
+| 呂筱婕 | 研究設計、圖表繪製、簡報與海報設計 |
+| 林峻霆 | 文獻探討、研究架構設計、數據標註、結論撰寫與統整 |
 - **聯絡方式**: jg971402@gmail.com
 
 ---
@@ -304,7 +315,7 @@ MIT License。見 [LICENSE](LICENSE)。
 
 ```bibtex
 @misc{ptt-sentiment-2025,
-  author = {王語揚},
+  author = {王語揚 and 呂筱婕 and 林峻霆},
   title = {事件驅動下的網路社群情緒與市場表現：以川普關稅政策期間之 PTT 股票版與台股加權指數為例},
   year = {2025},
   publisher = {GitHub},
@@ -314,4 +325,4 @@ MIT License。見 [LICENSE](LICENSE)。
 
 ---
 
-**最後更新**: 2026-10-08
+**最後更新**: 2026-10-14

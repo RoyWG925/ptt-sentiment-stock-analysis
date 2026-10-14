@@ -1,3 +1,6 @@
+> ⚠️ 本文為繳交時的原版，未做修改。2026-10 重新檢查後發現的錯誤與更正見 [ERRATA.md](../../ERRATA.md)。
+> This is the thesis as submitted, unchanged. Corrections found in October 2026 are in [ERRATA.md](../../ERRATA.md).
+
 # <a id="_5fh24n9m9pl3"></a>__事件驅動下的網路社群情緒與市場表現：__
 
 # <a id="_n26ldt6y6zwf"></a>以川普關稅政策期間之 PTT 股票版與台股加權指數為例
