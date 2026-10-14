@@ -65,16 +65,17 @@ Thesis Figure 4-1: Z-scored daily positive-comment share on PTT Stock and Z-scor
 
 *Figure 4-1 from [docs/papers/thesis.md](docs/papers/thesis.md). Source file: `docs/papers/figures/figure_03.png`.*
 
-### My role
+### Team
 
-This is a three-person team project. I am Roy Wang (王語揚, GitHub [RoyWG925](https://github.com/RoyWG925)). The thesis appendix assigns me these parts:
+Three-person team project. Roles as listed in the thesis appendix (小組分工情形):
 
-- Data crawling
-- BERT model training
-- Coding
-- Statistical analysis
+| Member | Role |
+|---|---|
+| 王語揚 Roy Wang ([RoyWG925](https://github.com/RoyWG925)) | Data crawling, BERT model training, coding, statistical analysis |
+| 呂筱婕 | Research design, charts, presentation and poster design |
+| 林峻霆 | Literature review, research framework, data annotation, conclusions and final integration |
 
-Teammate names are in the 作者 section below.
+All three members took part in the three-annotator labeling round.
 
 ---
 
@@ -287,7 +288,14 @@ MIT License。見 [LICENSE](LICENSE)。
 ## 👤 作者 (Author)
 
 - **研究者**: 王語揚、呂筱婕、林峻霆
-- **機構**: 國立臺灣師範大學
+- **指導教授**: 李良一、吳清麟
+- **機構**: 國立臺灣師範大學 學習科學學士學位學程
+
+| 成員 | 分工（論文附錄） |
+|---|---|
+| 王語揚 | BERT 模型訓練、程式撰寫、資料爬蟲、統計分析 |
+| 呂筱婕 | 研究設計、圖表繪製、簡報與海報設計 |
+| 林峻霆 | 文獻探討、研究架構設計、數據標註、結論撰寫與統整 |
 - **聯絡方式**: jg971402@gmail.com
 
 ---
@@ -307,7 +315,7 @@ MIT License。見 [LICENSE](LICENSE)。
 
 ```bibtex
 @misc{ptt-sentiment-2025,
-  author = {王語揚},
+  author = {王語揚 and 呂筱婕 and 林峻霆},
   title = {事件驅動下的網路社群情緒與市場表現：以川普關稅政策期間之 PTT 股票版與台股加權指數為例},
   year = {2025},
   publisher = {GitHub},
